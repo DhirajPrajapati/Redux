@@ -1,13 +1,10 @@
 import React, { useState } from "react";
+import { Field, reduxForm } from "redux-form";
+import Reduxtable from "./Reduxtable";
 
 const Form = (props) => {
-  const [name, setname] = useState("");
-  const [email, setemail] = useState("");
-  const [number, setnumber] = useState("");
-
-  const contactsubmit = () => {
-    props.submitform(name, email, number);
-  };
+  const [profile, setprofile] = useState(false);
+  const { handleSubmit } = props;
 
   return (
     <>
@@ -18,66 +15,51 @@ const Form = (props) => {
               <h1>Redux Form</h1>
             </div>
             <div className="form mb-5">
-              <form>
+              <form
+                onSubmit={handleSubmit((formValues) => {
+                  console.log(formValues);
+                  setprofile(true);
+                })}
+              >
                 <div className="mb-3">
-                  <label htmlFor="name" className="form-label">
-                    Name
-                  </label>
-                  <input
+                  <label>Name</label>
+                  <Field
+                    className="form-control"
+                    type="text"
                     name="name"
-                    type="text"
-                    value={name}
-                    onChange={(e) => {
-                      setname(e.target.value);
-                    }}
-                    className="form-control"
-                    id="name"
-                    autoComplete="off"
+                    component="input"
                     required
+                    autoComplete="off"
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="email" className="form-label">
-                    Email address
-                  </label>
-                  <input
+                  <label>Email</label>
+                  <Field
+                    className="form-control"
+                    type="email"
                     name="email"
-                    type="text"
-                    value={email}
-                    onChange={(e) => {
-                      setemail(e.target.value);
-                    }}
-                    className="form-control"
-                    id="email"
-                    autoComplete="off"
+                    component="input"
                     required
+                    autoComplete="off"
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="number" className="form-label">
-                    Mobile Number
-                  </label>
-                  <input
-                    name="number"
-                    type="number"
-                    value={number}
-                    onChange={(e) => {
-                      setnumber(e.target.value);
-                    }}
+                  <label>Number</label>
+                  <Field
                     className="form-control"
-                    id="number"
-                    autoComplete="off"
+                    type="number"
+                    name="number"
+                    component="input"
                     required
+                    autoComplete="off"
                   />
                 </div>
-                <button
-                  onClick={contactsubmit}
-                  type="submit"
-                  className="btn btn-primary"
-                >
-                  Submit
-                </button>
+                <button className="btn btn-primary">Submit</button>
               </form>
+            </div>
+            <div className="Profile my-5">
+              {profile ? <Reduxtable /> : null}
+              {/* <Reduxtable /> */}
             </div>
           </div>
         </div>
@@ -86,19 +68,6 @@ const Form = (props) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    submitform: (name, email, number) => {
-      dispatch({
-        type: "submit",
-        payload: {
-          name,
-          email,
-          number,
-        },
-      });
-    },
-  };
-};
-
-export default Form;
+export default reduxForm({
+  form: "myForm",
+})(Form);

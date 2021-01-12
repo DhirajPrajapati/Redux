@@ -1,17 +1,8 @@
-import React from "react";
+import { combineReducers } from "redux";
+import { reducer as formReducer } from "redux-form";
 
-const initialstate = {
-  name: "",
-  email: "",
-  number: "",
-};
+const rootReducer = combineReducers({
+  form: formReducer,
+});
 
-const fromreducer = (state = initialstate, action) => {
-  if (action === "submit") {
-    return action.payload;
-  } else {
-    return state;
-  }
-};
-
-export default fromreducer;
+export default rootReducer;

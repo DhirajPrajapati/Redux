@@ -1,6 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
+import { reset } from "redux-form";
 
-const Reduxtable = () => {
+const Reduxtable = (props) => {
   return (
     <>
       <div className="container">
@@ -9,7 +11,7 @@ const Reduxtable = () => {
             <div className="my-5">
               <div className="text-center">
                 <h1 className="bg-info my-3">Form Data</h1>
-                <table class="table table-hover">
+                <table className="table table-hover">
                   <thead>
                     <tr>
                       <th scope="col">Name</th>
@@ -19,15 +21,12 @@ const Reduxtable = () => {
                   </thead>
                   <tbody>
                     <tr>
-                      <td>Mark</td>
-                      <td>Otto</td>
-                      <td>@mdo</td>
+                      <td>{props.FormData.name}</td>
+                      <td>{props.FormData.email}</td>
+                      <td>{props.FormData.number}</td>
                     </tr>
                   </tbody>
                 </table>
-                <button type="submit" class="btn btn-primary">
-                  Back To Form
-                </button>
               </div>
             </div>
           </div>
@@ -37,4 +36,11 @@ const Reduxtable = () => {
   );
 };
 
-export default Reduxtable;
+const mapStateToProps = (state) => {
+  console.log(state);
+  return {
+    FormData: state.form.myForm.values,
+  };
+};
+
+export default connect(mapStateToProps)(Reduxtable);
